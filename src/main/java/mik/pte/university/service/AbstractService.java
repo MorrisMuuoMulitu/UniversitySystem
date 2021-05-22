@@ -19,13 +19,12 @@ public abstract class AbstractService<T extends AbstractEntity<ID>,ID extends Se
 
    public List<T> findAll(){
 
-        return (
-                List<T>) StreamSupport
-                .stream(abstractRepository.findAll()
-                        .spliterator(), false).collect(Collectors.toList());
+        return (List<T>) StreamSupport.stream(abstractRepository.findAll()
+        .spliterator(),false).collect(Collectors.toList());
     }
 
-    public void addCountry(T t){
-        abstractRepository.save(t);
+    public void saveObject(T t){
+        abstractRepository.saveAndFlush(t);
     }
+
 }

@@ -4,7 +4,9 @@ import mik.pte.university.domain.Country;
 import mik.pte.university.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HibernateUtil implements CommandLineRunner {
 
     @Autowired
@@ -21,6 +23,6 @@ public class HibernateUtil implements CommandLineRunner {
 
     private void createCountry(String country_name, String country_sign) {
         Country country = new Country(country_name, country_sign);
-        countryservice.addCountry(country);
+        countryservice.saveObject(country);
     }
 }

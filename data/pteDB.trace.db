@@ -1,0 +1,3 @@
+2021-05-23 00:46:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM COUNTRY CLIENT STUDENT[*]"; SQL statement:
+SELECT * FROM COUNTRY CLIENT STUDENT [42000-200]

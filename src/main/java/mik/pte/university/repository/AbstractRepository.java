@@ -13,4 +13,7 @@ import java.util.List;
 public interface AbstractRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
     @Override
     List<T> findAll();
+
+    @Override
+    <S extends T> S saveAndFlush(S s);
 }

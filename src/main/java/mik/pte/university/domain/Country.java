@@ -1,20 +1,24 @@
 package mik.pte.university.domain;
 
-
-import org.hibernate.annotations.Columns;
-
+import com.sun.istack.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Objects;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="country")
 public class Country extends AbstractEntity<Long> {
 
-    @Column(name = "country_name")
+    @lombok.Setter
+    @lombok.Getter
+    @Column(name = "country_name", nullable = false,unique = true)
+    @Size(min=2,max=20,message="Name length must be between 2 and 20")
     private String country_name;
-    @Column(name = "country_sign")
+
+    @Column(name = "country_sign",nullable = false,unique = true)
+    @Size(min=2,max=5,message="Sign length must be between 2 and 20")
     private String country_sign;
 
     public Country(String country_name, String country_sign) {
@@ -28,14 +32,6 @@ public class Country extends AbstractEntity<Long> {
     }
 
     public Country() {
-    }
-
-    public String getCountry_name() {
-        return country_name;
-    }
-
-    public void setCountry_name(String country_name) {
-        this.country_name = country_name;
     }
 
     public String getCountry_sign() {

@@ -22,4 +22,8 @@ public class CountryService extends AbstractService<Country, Long>{
    }
 
 
+    @Override
+    public void saveObject(Country country) {
+        super.saveObject(country);
+    }
 }
