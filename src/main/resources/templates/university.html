@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Countries</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+<table class="table table-dark table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Code</th>
+        <th scope="col">Country</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u: ${university}">
+        <td><span th:text="${u?.getUniversity_name}"></span></td>
+        <td><span th:text="${u?.getUniversity_code}"></span></td>
+        <td><span th:text="${u?.getUniversity_Country}"></span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+
