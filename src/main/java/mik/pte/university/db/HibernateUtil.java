@@ -15,8 +15,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class HibernateUtil implements CommandLineRunner {
 
+
+    CountryService countryservice;
+
+    UniversityService universityService;
+
+    TeacherService teacherService;
+
+    StudentService studentService;
+
     @Autowired
-    private CountryService countryservice;
+    public HibernateUtil(CountryService countryservice, UniversityService universityService, TeacherService teacherService, StudentService studentService) {
+        this.countryservice = countryservice;
+        this.universityService = universityService;
+        this.teacherService = teacherService;
+        this.studentService = studentService;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -42,9 +56,7 @@ public class HibernateUtil implements CommandLineRunner {
         countryservice.saveObject(country);
     }
 
-    @Autowired
-    private TeacherService teacherService;
-
+    
    void initTeacher(){
        createTeacher("Leonard Hofstadter",45,"Experimental Physics","United States");
        createTeacher("Sheldon Lee Cooper",41,"Theoretical Physics","Russia");
@@ -58,8 +70,7 @@ public class HibernateUtil implements CommandLineRunner {
         Teacher teacher=new Teacher(teacher_name,teacher_age,teacher_major,country);
         teacherService.saveObject(teacher);
     }
-    @Autowired
-    private UniversityService universityService;
+
 
     void initUniversity(){
        createUniversity("University of Pécs","PTE","Hungary");
@@ -69,9 +80,6 @@ public class HibernateUtil implements CommandLineRunner {
        University university=new University(university_name,university_code,university_country);
        universityService.saveObject(university);
     }
-
-    @Autowired
-    private StudentService studentService;
 
     void initStudent(){
         createStudent("Morris Mulitu","Computer science","Kenya");

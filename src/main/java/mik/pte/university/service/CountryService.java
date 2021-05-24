@@ -26,4 +26,22 @@ public class CountryService extends AbstractService<Country, Long>{
     public void saveObject(Country country) {
         super.saveObject(country);
     }
+
+
+    @Override
+    public Country findById(Long Id) {
+        return super.findById(Id);
+    }
+
+    @Override
+    public void deleteById(Long Id) {
+        super.deleteById(Id);
+    }
+
+    public void postEdit(Long Id, Country country){
+            Country c = findById(Id);
+            c.setCountry_name(country.getCountry_name());
+            c.setCountry_sign(country.getCountry_sign());
+            saveObject(c);
+    }
 }

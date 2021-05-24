@@ -13,7 +13,7 @@ public class Country extends AbstractEntity<Long> {
     @lombok.Setter
     @lombok.Getter
     @Column(name = "country_name", nullable = false,unique = true)
-    @Size(min=2,max=20,message="Name length must be between 2 and 20")
+    @Size(min=2,max=50,message="Name length must be between 2 and 50")
     private String country_name;
 
     @Column(name = "country_sign",nullable = false,unique = true)

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Add Country</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+		    <div class="container">
+		        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+		                aria-expanded="false" aria-label="Toggle navigation">
+		            <span class="navbar-toggler-icon"></span>
+		        </button>
+		        <div class="collapse navbar-collapse" id="navbarResponsive">
+		            <ul class="navbar-nav ml-auto">
+
+		            </ul>
+		        </div>
+		    </div>
+		</nav>
+
+    <div class="container my-5" style="padding-top: 30px;">
+
+        <h3> Add Country</h3>
+
+
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-10">
+                    <form class="form-group" th:action="@{/country/add}" th:object="${country}" method="post">
+                        <div>
+                            <span>Country Name</span>
+                            <input type="text" th:field="*{country_name}" />
+                        </div>
+                        <br></br>
+                        <div>
+                            <span>Country Code</span>
+                            <input type="text" th:field="*{country_sign}" />
+                        </div>
+                        <input type="submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

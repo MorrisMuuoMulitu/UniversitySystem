@@ -27,4 +27,12 @@ public abstract class AbstractService<T extends AbstractEntity<ID>,ID extends Se
         abstractRepository.saveAndFlush(t);
     }
 
+    public T findById(ID Id){
+        return abstractRepository.findById(Id).get();
+    }
+
+    public void deleteById(ID id){
+        abstractRepository.deleteById(id);
+    }
+
 }
