@@ -1,16 +1,13 @@
 package mik.pte.university.db;
 
-import mik.pte.university.domain.Country;
-import mik.pte.university.domain.Student;
-import mik.pte.university.domain.Teacher;
-import mik.pte.university.domain.University;
-import mik.pte.university.service.CountryService;
-import mik.pte.university.service.StudentService;
-import mik.pte.university.service.TeacherService;
-import mik.pte.university.service.UniversityService;
+import mik.pte.university.domain.*;
+import mik.pte.university.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class HibernateUtil implements CommandLineRunner {
@@ -24,20 +21,32 @@ public class HibernateUtil implements CommandLineRunner {
 
     StudentService studentService;
 
+    SubjectService subjectService;
+
+
+    StudentInfoService studentInfoService;
+
     @Autowired
-    public HibernateUtil(CountryService countryservice, UniversityService universityService, TeacherService teacherService, StudentService studentService) {
+    public HibernateUtil(CountryService countryservice, UniversityService universityService, TeacherService teacherService, StudentService studentService, SubjectService subjectService, StudentInfoService studentInfoService) {
         this.countryservice = countryservice;
         this.universityService = universityService;
         this.teacherService = teacherService;
         this.studentService = studentService;
+        this.subjectService = subjectService;
+        this.studentInfoService = studentInfoService;
     }
+
 
     @Override
     public void run(String... args) throws Exception {
+        initStudentInfo();
         initCountries();
         initTeacher();
         initUniversity();
         initStudent();
+        initStudentsTeacher();
+        initStudentSubjectManyToMany();
+        //deleteStudent();
     }
 
 
@@ -82,12 +91,80 @@ public class HibernateUtil implements CommandLineRunner {
     }
 
     void initStudent(){
-        createStudent("Morris Mulitu","Computer science","Kenya");
-        createStudent("Vladmir Putin","Political science","Russia");
+        createStudent("Morris Mulitu","Computer science","Kenya",1L);
+        createStudent("Vladmir Putin","Political science","Russia",0L);
     }
 
-    private void createStudent(String student_name,String study_program,String student_country) {
+    void initStudentInfo(){
+        createStudentInfo("BVQYMZ", "Scholarship", 7);
+    }
+
+    private void createStudentInfo(String neptun_code, String financial_status, int active_semesters){
+        StudentInfo studentInfo = new StudentInfo(neptun_code, financial_status, active_semesters);
+        studentInfoService.saveObject(studentInfo);
+    }
+    private void createStudent(String student_name,String study_program,String student_country, Long student_info_id) {
         Student student=new Student(student_name,study_program,student_country);
+        if(student_info_id != 0){
+            student.setStudentInfo(studentInfoService.findById(student_info_id));
+        }
         studentService.saveObject(student);
     }
+
+    void initStudentsTeacher(){
+        createStudentTeacher("Morris Muuo", "Information Technology", "Kenya", "Experimental Physics");
+        createStudentTeacher("Joey Tribiani", "Information Technology", "Kenya", "Pharmacy");
+        createStudentTeacher("Morris Muuo", "Information Technology", "Kenya", "Microbiology");
+    }
+
+    void createStudentTeacher(String name, String course_name, String country, String subject) {
+
+        Student student = new Student(name,course_name,country);
+
+        Teacher fetched_teacher = teacherService.findBySubjectName(subject);
+
+        if(fetched_teacher != null){
+            student.setTeacher(fetched_teacher);
+            //fetched_teacher.addStudent(student);
+            teacherService.saveObject(fetched_teacher);
+            studentService.saveObject(student);
+        }
+
+    }
+
+    ArrayList<String[]> subjectsArray(){
+        ArrayList<String[]> listItems = new ArrayList<String[]>();
+       listItems.add(new String[]{"NEE", "Network engineering"});
+        listItems.add(new String[]{"SEE","Software Engineering"});
+        listItems.add(new String[]{"CAE","Computer Architecture"});
+
+
+
+        return listItems;
+    }
+
+    void initStudentSubjectManyToMany(){
+        createStudentSubject("Chadler Bing", "Communications", "Uganda",subjectsArray());
+    }
+
+    private void createStudentSubject(String name, String course_name, String country, ArrayList<String[]> subjectsArray) {
+        Student student = new Student(name,course_name,country);
+
+        for(String[] subject : subjectsArray){
+            Subject s = new Subject(subject[0],subject[1]);
+
+
+            s.addStudent(student);
+            student.addSubject(s);
+            subjectService.saveObject(s);
+
+        }
+        studentService.saveObject(student);
+    }
+
+    private void deleteStudent(){
+        studentService.deleteStudent(6L);
+    }
+
+
 }

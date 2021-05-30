@@ -1,6 +1,8 @@
 package mik.pte.university.service;
 
 import mik.pte.university.domain.Student;
+import mik.pte.university.domain.Subject;
+import mik.pte.university.domain.Teacher;
 import mik.pte.university.repository.AbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,17 @@ public class StudentService extends AbstractService<Student,Long>{
     @Override
     public void saveObject(Student student) {
         super.saveObject(student);
+    }
+
+    public void deleteStudent(Long Id){
+        Student student = (Student) findById(Id);
+
+        for(Subject s : student.getSubjectSet()){
+            s.getStudentSet().remove(student);
+            student.getSubjectSet().remove(s);
+        }
+
+        super.deleteById(Id);
     }
 
 }

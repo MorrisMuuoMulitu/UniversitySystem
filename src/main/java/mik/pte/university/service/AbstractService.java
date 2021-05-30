@@ -24,7 +24,7 @@ public abstract class AbstractService<T extends AbstractEntity<ID>,ID extends Se
     }
 
     public void saveObject(T t){
-        abstractRepository.saveAndFlush(t);
+        abstractRepository.save(t);
     }
 
     public T findById(ID Id){

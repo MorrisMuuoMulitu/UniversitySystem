@@ -1,11 +1,11 @@
 package mik.pte.university.domain;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="teacher")
@@ -24,20 +24,32 @@ public class Teacher extends AbstractEntity<Long> {
     @Column(name="teacher_country",nullable = false)
     private String country;
 
-    public Teacher(Long id, String teacher_name, int teacher_age, String teacher_major,String country) {
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Student> studentSet = new HashSet<Student>(); ;
+
+
+    public Teacher(String teacher_name, int teacher_age, String teacher_major, String country, Set<Student> studentSet) {
+        this.teacher_name = teacher_name;
+        this.teacher_age = teacher_age;
+        this.teacher_major = teacher_major;
+        this.country = country;
+        this.studentSet = studentSet;
+    }
+
+    public Teacher(Long id) {
         super(id);
+    }
+
+
+
+    public Teacher(String teacher_name, int teacher_age, String teacher_major,String country) {
+        super(null);
         this.teacher_name = teacher_name;
         this.teacher_age = teacher_age;
         this.teacher_major = teacher_major;
         this.country = country;
     }
 
-    public Teacher(String teacher_name, int teacher_age, String teacher_major,String country) {
-        this.teacher_name = teacher_name;
-        this.teacher_age = teacher_age;
-        this.teacher_major = teacher_major;
-        this.country=country;
-    }
 
     public Teacher() {
 
@@ -73,6 +85,22 @@ public class Teacher extends AbstractEntity<Long> {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Set<Student> getStudentSet() {
+        return studentSet;
+    }
+
+    public void setStudentSet(Set<Student> studentSet) {
+        this.studentSet = studentSet;
+    }
+
+    public void addStudent(Student student) {
+        studentSet.add(student);
+    }
+
+    public void removeStudent(Student student) {
+        studentSet.remove(student);
     }
 
     @Override
