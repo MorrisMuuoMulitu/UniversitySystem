@@ -41,6 +41,14 @@ public class Country extends AbstractEntity<Long> {
         this.country_sign = country_sign;
     }
 
+    public String getCountry_name() {
+        return country_name;
+    }
+
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,6 +57,7 @@ public class Country extends AbstractEntity<Long> {
         Country country = (Country) o;
         return getCountry_name().equals(country.getCountry_name()) && getCountry_sign().equals(country.getCountry_sign());
     }
+
 
     @Override
     public int hashCode() {

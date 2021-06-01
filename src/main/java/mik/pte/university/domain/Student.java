@@ -15,6 +15,8 @@ import java.util.Set;
 @Table(name="student")
 public class Student extends AbstractEntity<Long> {
 
+
+
     @Column(name = "student_name", nullable = false)
     private String student_name;
 
@@ -24,7 +26,7 @@ public class Student extends AbstractEntity<Long> {
     @Column(name = "student_country", nullable = false)
     private String student_country;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn(name = "FLD_TEACHER",referencedColumnName = "id")
     private Teacher teacher;
 
@@ -124,6 +126,14 @@ public class Student extends AbstractEntity<Long> {
     public void removeSubject(Subject subject) {
         subjectSet.remove(subject);
         subject.getStudentSet().remove(this);
+    }
+
+    public StudentInfo getStudentInfo() {
+        return studentInfo;
+    }
+
+    public void setStudentInfo(StudentInfo studentInfo) {
+        this.studentInfo = studentInfo;
     }
 }
 

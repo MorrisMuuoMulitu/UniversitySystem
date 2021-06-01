@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+    <title>Students</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+<form th:action="@{/student/add}"
+      method="post" th:object="${stud}">
+    <label for="student_name">Name</label>
+    <input type="text" th:field="*{student_name}"   id="student_name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('student_name')}" th:errors="*{student_name}"></span>
+    <label for="study_program">Program</label>
+    <input type="text" th:field="*{study_program}" id="study_program" placeholder="Program">
+    <span th:if="${#fields.hasErrors('study_program')}" th:errors="*{study_program}"></span>
+    <label for="student_country">Country</label>
+    <input type="text" th:field="*{student_country}"   id="student_country" placeholder="Country">
+    <span th:if="${#fields.hasErrors('student_country')}" th:errors="*{student_country}"></span>
+    <input type="submit" value="Add User">
+</form>
+
+</body>
+</html>
+

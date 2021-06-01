@@ -15,6 +15,12 @@
     <th scope="col">Name</th>
     <th scope="col">Program</th>
     <th scope="col">Country</th>
+    <th scope="col">Teacher</th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+
+
   </tr>
   </thead>
   <tbody>
@@ -22,7 +28,13 @@
     <td><span th:text="${s?.getStudent_name}"></span></td>
     <td><span th:text="${s?.getStudy_program}"></span></td>
     <td><span th:text="${s?.getStudent_country}"></span></td>
+    <td><span th:text="${s?.getTeacher()?.getTeacher_name()}"></span></td>
+    <td><a th:href="'/student/morepage/'+${s.id}" class="btn btn-info">More</a></td>
+    <td><a th:href="'/student/editpage/'+${s.id}" class="btn btn-info">Edit</a></td>
+    <td><a th:href="'/student/delete/'+${s.id}" class="btn btn-info">Delete</a></td>
   </tr>
+  <a th:href="@{/student/add}" class="btn btn-info">Add Student</a>
+
   </tbody>
 </table>
 </body>

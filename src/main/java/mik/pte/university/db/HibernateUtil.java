@@ -14,15 +14,10 @@ public class HibernateUtil implements CommandLineRunner {
 
 
     CountryService countryservice;
-
     UniversityService universityService;
-
     TeacherService teacherService;
-
     StudentService studentService;
-
     SubjectService subjectService;
-
 
     StudentInfoService studentInfoService;
 
@@ -45,7 +40,12 @@ public class HibernateUtil implements CommandLineRunner {
         initUniversity();
         initStudent();
         initStudentsTeacher();
-        initStudentSubjectManyToMany();
+        Student student=studentService.findAll().get(0);
+        StudentInfo s=studentInfoService.findAll().get(0);
+        student.setStudentInfo(s);
+        studentService.saveObject(student);
+
+//        initStudentSubjectManyToMany();
         //deleteStudent();
     }
 
@@ -65,15 +65,15 @@ public class HibernateUtil implements CommandLineRunner {
         countryservice.saveObject(country);
     }
 
-    
-   void initTeacher(){
-       createTeacher("Leonard Hofstadter",45,"Experimental Physics","United States");
-       createTeacher("Sheldon Lee Cooper",41,"Theoretical Physics","Russia");
-       createTeacher("Rajesh Koothrappali ",41,"Astrophysics","India");
-       createTeacher("Penny Hofstadter",34,"Pharmacy","Canada");
-       createTeacher("Bernadette Rostenkowski",37,"Microbiology","Germany");
 
-   }
+    void initTeacher(){
+        createTeacher("Leonard Hofstadter",45,"Experimental Physics","United States");
+        createTeacher("Sheldon Lee Cooper",41,"Theoretical Physics","Russia");
+        createTeacher("Rajesh Koothrappali ",41,"Astrophysics","India");
+        createTeacher("Penny Hofstadter",34,"Pharmacy","Canada");
+        createTeacher("Bernadette Rostenkowski",37,"Microbiology","Germany");
+
+    }
 
     private void createTeacher(String teacher_name, int teacher_age, String teacher_major, String country) {
         Teacher teacher=new Teacher(teacher_name,teacher_age,teacher_major,country);
@@ -82,12 +82,12 @@ public class HibernateUtil implements CommandLineRunner {
 
 
     void initUniversity(){
-       createUniversity("University of Pécs","PTE","Hungary");
+        createUniversity("University of Pécs","PTE","Hungary");
     }
 
     private void createUniversity(String university_name,String university_code,String university_country) {
-       University university=new University(university_name,university_code,university_country);
-       universityService.saveObject(university);
+        University university=new University(university_name,university_code,university_country);
+        universityService.saveObject(university);
     }
 
     void initStudent(){
@@ -105,9 +105,9 @@ public class HibernateUtil implements CommandLineRunner {
     }
     private void createStudent(String student_name,String study_program,String student_country, Long student_info_id) {
         Student student=new Student(student_name,study_program,student_country);
-        if(student_info_id != 0){
-            student.setStudentInfo(studentInfoService.findById(student_info_id));
-        }
+//        if(student_info_id != 0){
+//            student.setStudentInfo(studentInfoService.findById(student_info_id));
+//        }
         studentService.saveObject(student);
     }
 
@@ -134,7 +134,7 @@ public class HibernateUtil implements CommandLineRunner {
 
     ArrayList<String[]> subjectsArray(){
         ArrayList<String[]> listItems = new ArrayList<String[]>();
-       listItems.add(new String[]{"NEE", "Network engineering"});
+        listItems.add(new String[]{"NEE", "Network engineering"});
         listItems.add(new String[]{"SEE","Software Engineering"});
         listItems.add(new String[]{"CAE","Computer Architecture"});
 
@@ -143,24 +143,24 @@ public class HibernateUtil implements CommandLineRunner {
         return listItems;
     }
 
-    void initStudentSubjectManyToMany(){
-        createStudentSubject("Chadler Bing", "Communications", "Uganda",subjectsArray());
-    }
-
-    private void createStudentSubject(String name, String course_name, String country, ArrayList<String[]> subjectsArray) {
-        Student student = new Student(name,course_name,country);
-
-        for(String[] subject : subjectsArray){
-            Subject s = new Subject(subject[0],subject[1]);
-
-
-            s.addStudent(student);
-            student.addSubject(s);
-            subjectService.saveObject(s);
-
-        }
-        studentService.saveObject(student);
-    }
+//    void initStudentSubjectManyToMany(){
+//        createStudentSubject("Chadler Bing", "Communications", "Uganda",subjectsArray());
+//    }
+//
+//    private void createStudentSubject(String name, String course_name, String country, ArrayList<String[]> subjectsArray) {
+//        Student student = new Student(name,course_name,country);
+//
+//        for(String[] subject : subjectsArray){
+//            Subject s = new Subject(subject[0],subject[1]);
+//
+//
+//            s.addStudent(student);
+//            student.addSubject(s);
+//            subjectService.saveObject(s);
+//
+//        }
+//        studentService.saveObject(student);
+//    }
 
     private void deleteStudent(){
         studentService.deleteStudent(6L);
