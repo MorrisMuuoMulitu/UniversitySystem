@@ -105,8 +105,8 @@ public class StudentController {
         Student student=studentService.findById(id);
 
         if (student!=null) {
-            studentService.deleteStudent(id);
-            return "redirect:/student/";
+           studentService.deleteStudent(id);
+           return "redirect:/student/";
         } else {
             return String.valueOf(HttpStatus.NOT_FOUND.value());
         }
@@ -114,10 +114,10 @@ public class StudentController {
 
     @PostMapping("/update")
     public String updateStudent(
-            @RequestParam Long id,
-            @RequestParam String student_name, @RequestParam String study_program,
-            @RequestParam String student_country,
-            @RequestParam Teacher teacher) {
+                                @RequestParam Long id,
+                                @RequestParam String student_name, @RequestParam String study_program,
+                                @RequestParam String student_country,
+                                @RequestParam Teacher teacher) {
         Student student_0= studentService.findById(id);
 
         if (student_0!=null) {
@@ -134,8 +134,8 @@ public class StudentController {
 
     @PostMapping("/updatemore")
     public String updateStudentMore(@ModelAttribute("studentMore") @Valid Student student,
-                                    @RequestParam Long id
-    ) {
+                                @RequestParam Long id
+                                ) {
         StudentInfo studentInfo=new StudentInfo(student.getStudentInfo().getNeptun_code(),student.getStudentInfo().getFinancial_status(),student.getStudentInfo().getActive_semesters());
         studentInfoService.saveObject(studentInfo);
         Student student_0 = studentService.findById(id);
