@@ -23,6 +23,7 @@
     <label for="student_country">Country</label>
     <input type="text" th:field="*{student_country}"   id="student_country" placeholder="Country">
     <span th:if="${#fields.hasErrors('student_country')}" th:errors="*{student_country}"></span>
+
     <input type="submit" value="Add User">
 </form>
 
