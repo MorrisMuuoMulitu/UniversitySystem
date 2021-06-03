@@ -16,6 +16,7 @@
     <th scope="col">Program</th>
     <th scope="col">Country</th>
     <th scope="col">Teacher</th>
+    <th scope="col">Subjects</th>
     <th scope="col"></th>
     <th scope="col"></th>
     <th scope="col"></th>
@@ -29,7 +30,8 @@
     <td><span th:text="${s?.getStudy_program}"></span></td>
     <td><span th:text="${s?.getStudent_country}"></span></td>
     <td><span th:text="${s?.getTeacher()?.getTeacher_name()}"></span></td>
-    <td><a th:href="'/student/morepage/'+${s.id}" class="btn btn-info">More</a></td>
+    <td><ul  th:each="subject : ${s?.getSubjectSet}"><li th:text="${subject.getSubject_name}"></li></ul></td>
+    <td><a th:href="@{/student/morepage/{id}(id=${s?.getId})}" class="btn btn-info">More</a></td>
     <td><a th:href="'/student/editpage/'+${s.id}" class="btn btn-info">Edit</a></td>
     <td><a th:href="'/student/delete/'+${s.id}" class="btn btn-info">Delete</a></td>
   </tr>

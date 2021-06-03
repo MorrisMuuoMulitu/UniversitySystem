@@ -17,6 +17,7 @@
         <th scope="col">Program</th>
         <th scope="col">Country</th>
         <th scope="col">Teacher</th>
+        <th scope="col">Subjects</th>
         <th scope="col"></th>
         <th scope="col"></th>
 
@@ -41,7 +42,12 @@
                     <option th:each="teacher : ${teachers}" th:field="*{teacher}" th:value="${teacher.id}" th:text="${teacher.teacher_name}"></option>
                 </select>
             </td>
-
+            <td>
+                <select class="form-control" th:field="*{subjectSet}"   id="dropOperator" multiple size="6">
+                    <option value="0">select subjects</option>
+                    <option th:each="subject : ${subjects}" th:field="*{subjectSet}" th:value="${subject.id}" th:text="${subject.subject_name}"></option>
+                </select>
+            </td>
             <td><input type="submit" value="Save"></td>
         <td><a th:href="@{/student}" class="btn btn-info">Cancel</a></td>
         </form>

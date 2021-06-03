@@ -31,4 +31,14 @@ public class SubjectService extends AbstractService<Subject, Long>{
 
         super.deleteById(Id);
     }
+
+
+    public Subject findBySubjectName(String subject){
+        for(Subject s : findAll()){
+            if(s.getSubject_name().equalsIgnoreCase(subject)){
+                return s;
+            }
+        }
+        return null;
+    }
 }

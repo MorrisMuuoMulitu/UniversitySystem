@@ -3,9 +3,11 @@ package mik.pte.university.controller;
 
 import mik.pte.university.domain.Student;
 import mik.pte.university.domain.StudentInfo;
+import mik.pte.university.domain.Subject;
 import mik.pte.university.domain.Teacher;
 import mik.pte.university.service.StudentInfoService;
 import mik.pte.university.service.StudentService;
+import mik.pte.university.service.SubjectService;
 import mik.pte.university.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,15 +29,15 @@ public class StudentController {
 
 
     TeacherService teacherService;
-
-
+    SubjectService subjectService;
     StudentInfoService studentInfoService;
 
     @Autowired
-    public StudentController(StudentService studentService,TeacherService teacherService,StudentInfoService studentInfoService) {
+    public StudentController(StudentService studentService, TeacherService teacherService, SubjectService subjectService, StudentInfoService studentInfoService) {
         this.studentService = studentService;
-        this.teacherService=teacherService;
-        this.studentInfoService=studentInfoService;
+        this.teacherService = teacherService;
+        this.subjectService = subjectService;
+        this.studentInfoService = studentInfoService;
     }
 
     @GetMapping("")
@@ -49,19 +51,24 @@ public class StudentController {
 
     @GetMapping("/add")
     public String studentPageAdd(Model model) {
+        model.addAttribute("subjects", subjectService.findAll());
+        model.addAttribute("teachers", teacherService.findAll());
         model.addAttribute("stud", new Student());
         return "studentCreate";
 
     }
     @PostMapping("/add")
-    public String studentAdd(@RequestParam String student_name,
+    public String studentAdd(/*@RequestParam String student_name,
                              @RequestParam String study_program,
-                             @RequestParam String student_country) {
+                             @RequestParam String student_country*/ Student student, Model model) {
 
 
 
-        Student s = new Student(student_name,study_program,student_country);
+        Student s = new Student(student.getStudent_name(),student.getStudy_program(),student.getStudent_country());
+        s.setTeacher(student.getTeacher());
+        s.setSubjectSet(student.getSubjectSet());
         studentService.saveObject(s);
+        model.addAttribute("student", studentService.findAll());
         return "students";
     }
 
@@ -89,9 +96,13 @@ public class StudentController {
         Student student=studentService.findById(id);
 
         if (student!=null) {
+            for(Subject subject:student.getSubjectSet()){
+                student.getSubjectSet().remove(subject);
+            }
             model.addAttribute("studentEdit", student);
-            List<Teacher> teachers =  teacherService.findAll();
-            model.addAttribute("teachers", teachers);
+            ///List<Teacher> teachers =  teacherService.findAll();
+            model.addAttribute("subjects", subjectService.findAll());
+            model.addAttribute("teachers", teacherService.findAll());
             return "studentEdit";
         } else {
             return String.valueOf(HttpStatus.NOT_FOUND.value());
@@ -114,17 +125,18 @@ public class StudentController {
 
     @PostMapping("/update")
     public String updateStudent(
-                                @RequestParam Long id,
-                                @RequestParam String student_name, @RequestParam String study_program,
-                                @RequestParam String student_country,
-                                @RequestParam Teacher teacher) {
+                                @RequestParam Long id,Student student
+                                /*/@RequestParam String student_name, @RequestParam String study_program,
+                                //@RequestParam String student_country,
+                                //@RequestParam Teacher teacher*/) {
         Student student_0= studentService.findById(id);
 
         if (student_0!=null) {
-            student_0.setStudent_name(student_name);
-            student_0.setStudent_country(student_country);
-            student_0.setStudy_program(study_program);
-            student_0.setTeacher(teacher);
+            student_0.setStudent_name(student.getStudent_name());
+            student_0.setStudent_country(student.getStudent_country());
+            student_0.setStudy_program(student.getStudy_program());
+            student_0.setTeacher(student.getTeacher());
+            student_0.setSubjectSet(student.getSubjectSet());
             studentService.saveObject(student_0);
             return "redirect:/student/";
         } else {

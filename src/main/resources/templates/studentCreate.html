@@ -23,7 +23,18 @@
     <label for="student_country">Country</label>
     <input type="text" th:field="*{student_country}"   id="student_country" placeholder="Country">
     <span th:if="${#fields.hasErrors('student_country')}" th:errors="*{student_country}"></span>
-
+    <td>
+        <select class="form-control" th:field="*{teacher}"   id="dropOperator">
+            <option value="0">select teacher</option>
+            <option th:each="teacher : ${teachers}" th:field="*{teacher}" th:value="${teacher.id}" th:text="${teacher.teacher_name}"></option>
+        </select>
+    </td>
+    <td>
+        <select class="form-control" th:field="*{subjectSet}"   id="dropOperator" multiple size="6">
+            <option value="0">select subjects</option>
+            <option th:each="subject : ${subjects}" th:field="*{subjectSet}" th:value="${subject.id}" th:text="${subject.subject_name}"></option>
+        </select>
+    </td>
     <input type="submit" value="Add User">
 </form>
 

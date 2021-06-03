@@ -44,8 +44,7 @@ public class HibernateUtil implements CommandLineRunner {
         StudentInfo s=studentInfoService.findAll().get(0);
         student.setStudentInfo(s);
         studentService.saveObject(student);
-
-//        initStudentSubjectManyToMany();
+        initStudentSubjectManyToMany();
         //deleteStudent();
     }
 
@@ -79,6 +78,9 @@ public class HibernateUtil implements CommandLineRunner {
         Teacher teacher=new Teacher(teacher_name,teacher_age,teacher_major,country);
         teacherService.saveObject(teacher);
     }
+
+
+
 
 
     void initUniversity(){
@@ -121,14 +123,28 @@ public class HibernateUtil implements CommandLineRunner {
 
         Student student = new Student(name,course_name,country);
 
-        Teacher fetched_teacher = teacherService.findBySubjectName(subject);
+        Subject subject1 = subjectService.findBySubjectName(subject);
 
-        if(fetched_teacher != null){
-            student.setTeacher(fetched_teacher);
-            //fetched_teacher.addStudent(student);
-            teacherService.saveObject(fetched_teacher);
+        if(subject1 == null){
+            String[] codeArr = subject.split(" ");
+            char[] sc = new char[codeArr.length];
+            for(int i=0; i < codeArr.length; i++){
+                sc[i] = codeArr[i].charAt(0);
+            }
+
+            Subject s = new Subject(subject,String.valueOf(sc));
+            s.addStudent(student);
+            student.addSubject(s);
+            subjectService.saveObject(s);
             studentService.saveObject(student);
         }
+        else {
+            student.addSubject(subject1);
+            subjectService.saveObject(subject1);
+            studentService.saveObject(student);
+        }
+
+
 
     }
 
@@ -143,24 +159,24 @@ public class HibernateUtil implements CommandLineRunner {
         return listItems;
     }
 
-//    void initStudentSubjectManyToMany(){
-//        createStudentSubject("Chadler Bing", "Communications", "Uganda",subjectsArray());
-//    }
-//
-//    private void createStudentSubject(String name, String course_name, String country, ArrayList<String[]> subjectsArray) {
-//        Student student = new Student(name,course_name,country);
-//
-//        for(String[] subject : subjectsArray){
-//            Subject s = new Subject(subject[0],subject[1]);
-//
-//
-//            s.addStudent(student);
-//            student.addSubject(s);
-//            subjectService.saveObject(s);
-//
-//        }
-//        studentService.saveObject(student);
-//    }
+    void initStudentSubjectManyToMany(){
+        createStudentSubject("Chadler Bing", "Communications", "Uganda",subjectsArray());
+    }
+
+    private void createStudentSubject(String name, String course_name, String country, ArrayList<String[]> subjectsArray) {
+        Student student = new Student(name,course_name,country);
+
+        for(String[] subject : subjectsArray){
+            Subject s = new Subject(subject[0],subject[1]);
+
+
+            s.addStudent(student);
+            student.addSubject(s);
+            subjectService.saveObject(s);
+
+        }
+        studentService.saveObject(student);
+    }
 
     private void deleteStudent(){
         studentService.deleteStudent(6L);
