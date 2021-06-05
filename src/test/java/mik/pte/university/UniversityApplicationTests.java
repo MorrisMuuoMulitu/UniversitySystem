@@ -85,7 +85,7 @@ class UniversityApplicationTests {
         Assertions.assertNotNull(studentService.findById(2L));
     }
 
- /* @Test
+  @Test
     @DisplayName("Üpdate Student Success")
     void updateStudent(){
         Student n = studentService.findById(2L);
@@ -96,7 +96,7 @@ class UniversityApplicationTests {
         studentService.saveObject(n);
 
     }
-*/
+
     @Test
     @DisplayName("Delete success")
     void deleteStudent(){
