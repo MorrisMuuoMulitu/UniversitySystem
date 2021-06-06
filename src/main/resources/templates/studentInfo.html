@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Student Info</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+<table class="table table-dark table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Neptun code</th>
+        <th scope="col">Financial status</th>
+        <th scope="col">Number of active semesters</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="t: ${studentInfo}">
+        <td><span th:text="${t?.getNeptun_code}"></span></td>
+        <td><span th:text="${t?.getFinancial_status}"></span></td>
+        <td><span th:text="${t?.getActive_semesters}"></span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+

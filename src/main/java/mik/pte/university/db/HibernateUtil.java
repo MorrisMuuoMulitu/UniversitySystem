@@ -99,6 +99,7 @@ public class HibernateUtil implements CommandLineRunner {
 
     void initStudentInfo(){
         createStudentInfo("BVQYMZ", "Scholarship", 7);
+        createStudentInfo("JKSUMS","Self sponsored",5);
     }
 
     private void createStudentInfo(String neptun_code, String financial_status, int active_semesters){
