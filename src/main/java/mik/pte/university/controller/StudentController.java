@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/student")
-public class StudentController {
+public class StudentController implements RestController<Student>{
     private final StudentService studentService;
 
 
@@ -162,15 +162,10 @@ public class StudentController {
     }
 
 
+    @Override
+    public String getAll(Model model) {
+        model.addAttribute("student", studentService.findAll());
+        return "students";
 
-
-
-
-
-
-
-
-
-
-
+    }
 }
