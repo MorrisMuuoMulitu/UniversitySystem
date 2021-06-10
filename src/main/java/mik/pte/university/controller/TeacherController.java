@@ -29,6 +29,7 @@ public class TeacherController implements mik.pte.university.controller.RestCont
 //        return "teacher";
 //    }
 
+
     public ModelAndView teacher(){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("teacher");

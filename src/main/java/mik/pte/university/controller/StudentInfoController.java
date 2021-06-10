@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/studentInfo")
-public class StudentInfoController {
+public class StudentInfoController implements RestController<StudentInfo>{
 
     private final StudentInfoService studentInfoService;
 
@@ -22,6 +22,12 @@ public class StudentInfoController {
     @GetMapping("/all")
     String getStudentInfo(Model model){
         model.addAttribute("studentInfo",studentInfoService.findAll());
+        return "studentInfo";
+    }
+
+    @Override
+    public String getAll(Model model) {
+        model.addAttribute("studentInfo", studentInfoService.findAll());
         return "studentInfo";
     }
 }
